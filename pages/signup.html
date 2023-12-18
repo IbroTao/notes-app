@@ -89,14 +89,20 @@
           },
           body: JSON.stringify(data),
         });
-        return response.json();
+        let returnData = await response.json();
+        return returnData;
       }
 
       let submit = document.getElementById("submit");
-      submit.addEventListener("click", () => {
+      submit.addEventListener("click", async () => {
         let email = document.getElementById("email").value;
         let password = document.getElementById("password").value;
         console.log("Submitting data", email, password);
+        let resp = await postData("/signup", { email, password });
+        console.log(resp);
+        if (resp.success) {
+          alert("User signed up. You can now logged in");
+        }
       });
     </script>
   </body>
