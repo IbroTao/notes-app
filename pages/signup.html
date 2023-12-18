@@ -99,9 +99,10 @@
         let password = document.getElementById("password").value;
         console.log("Submitting data", email, password);
         let resp = await postData("/signup", { email, password });
-        console.log(resp);
         if (resp.success) {
           alert("User signed up. You can now logged in");
+          let email = (document.getElementById("email").value = "");
+          let password = (document.getElementById("password").value = "");
         }
       });
     </script>

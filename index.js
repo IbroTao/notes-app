@@ -2,6 +2,7 @@ const express = require("express");
 const { mongoConnect } = require("./configs/mongoConnect");
 const { User } = require("./models/User");
 const { Note } = require("./models/Notes");
+const { hashSync } = require("bcryptjs");
 const app = express();
 
 require("dotenv").config();
@@ -29,8 +30,11 @@ app.get("/login", (req, res) => {
 
 // Endpoints for Notes APIs
 app.post("/signup", async (req, res) => {
-  console.log(req.body);
-  let user = await User.create(req.body);
+  const { email, password } = req.body;
+  let user = await User.create({
+    email: email,
+    password: hashSync(password, 10),
+  });
   res.status(200).json({
     success: true,
     user: user,
