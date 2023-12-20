@@ -41,10 +41,22 @@ app.post("/signup", async (req, res) => {
   });
 });
 
-app.post("/login", (req, res) => {
-  res.sendFile("pages/login.html", {
-    root: __dirname,
-  });
+app.post("/login", async (req, res) => {
+  let user = await User.findOne(req.body);
+  if (!user) {
+    res.status(404).json({
+      success: false,
+      message: "No user found",
+    });
+  } else {
+    res.status(200).json({
+      success: true,
+      user: {
+        email: user.email,
+      },
+      message: "User found",
+    });
+  }
 });
 
 app.post("/addnotes", (req, res) => {
